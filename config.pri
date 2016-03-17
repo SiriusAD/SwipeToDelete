@@ -36,7 +36,10 @@ simulator {
 
 config_pri_assets {
     OTHER_FILES += \
+        $$quote($$BASEDIR/assets/images/Vincent.jpg) \
+        $$quote($$BASEDIR/assets/images/christiaan.jpg) \
         $$quote($$BASEDIR/assets/images/oasis.jpg) \
+        $$quote($$BASEDIR/assets/images/yogscast.png) \
         $$quote($$BASEDIR/assets/main.qml)
 }
 

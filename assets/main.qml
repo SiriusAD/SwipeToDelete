@@ -67,20 +67,20 @@ Page {
 
                         Container {
                             background: ui.palette.background
-                            
+
                             horizontalAlignment: HorizontalAlignment.Fill
                             verticalAlignment: VerticalAlignment.Fill
 
                             StandardListItem {
-                                title: "Definitely Maybe"
-                                description: "Oasis"
-                                imageSource: "asset:///images/oasis.jpg"
-                                status: "1994"
+                                title: ListItemData.title
+                                description: ListItemData.description
+                                imageSource: ListItemData.imageSource
+                                status: ListItemData.status
                             }
                         }
 
                         onTranslationXChanged: {
-                            swipeRoot.opacity = 1 - swipeRoot.translationX / itemRoot.dragThreshold        //The change in opacity makes the removal visible.
+                            swipeRoot.opacity = 1 - swipeRoot.translationX / itemRoot.dragThreshold //The change in opacity makes the removal visible.
                         }
                     }
 
@@ -94,14 +94,14 @@ Page {
                     ListItem.onActivationChanged: {
                         //This signal is emitted by a ListItem when it is no longer active (losses focus) in the listView
                         if (active == false) {
-                            releaseItem();        
+                            releaseItem();
                         }
                     }
 
                     property real dx: 0
-                    property real currentX: 0    
-                    property real dragThreshold: itemRoot.ListItem.view.listDeviceWidth * 0.8    //The threshold is set to 80% of device width. 
-                    property bool thisItem: false        //Helpful state variable. Will be used in move events to check if the event started at this item.
+                    property real currentX: 0
+                    property real dragThreshold: itemRoot.ListItem.view.listDeviceWidth * 0.8 //The threshold is set to 80% of device width.
+                    property bool thisItem: false //Helpful state variable. Will be used in move events to check if the event started at this item.
 
                     function releaseItem() {
                         //It the item has translated, move it back to it's original position.
@@ -118,7 +118,7 @@ Page {
                         SequentialAnimation {
                             id: resetItem
                             target: swipeRoot
-                            //for a snappy elastic animation 
+                            //for a snappy elastic animation
                             animations: [
                                 TranslateTransition {
                                     toX: 11
@@ -144,7 +144,7 @@ Page {
                     onTouch: {
 
                         // Disabling implicit animation this will make movements snappy.
-                        
+
                         translationControllerX.enabled = false;
 
                         //check event type and execute what is needed.
@@ -155,13 +155,13 @@ Page {
                             resetItem.stop();
                             releaseItem();
 
-                            dx = event.windowX;       
-                            thisItem = true            //Touch events started at this item
+                            dx = event.windowX;
+                            thisItem = true //Touch events started at this item
 
                         } else if (event.isMove()) {
                             currentX = event.windowX - dx;
 
-                            if (thisItem == false) {        //Touch event did not start at this item.
+                            if (thisItem == false) { //Touch event did not start at this item.
                                 releaseItem();
                                 return;
                             }
@@ -174,7 +174,7 @@ Page {
                             } else {
                                 swipeRoot.translationX = currentX
                             }
-                            
+
                         } else if (event.isUp()) {
                             releaseItem();
                         }
@@ -190,15 +190,40 @@ Page {
     }
 
     onCreationCompleted: {
-        
+
         //Add some items to test swipe
-        var item = {}
+        var item = {
+            title: "Definitely Maybe",
+            description: "Oasis",
+            imageSource: "asset:///images/oasis.jpg",
+            status: "1994"
+        }
         groupDataModel.insert(item)
+
+        var item = {
+            title: "The Starry Night",
+            description: "Vincent van Gogh",
+            imageSource: "asset:///images/Vincent.jpg",
+            status: "1889"
+        }
         groupDataModel.insert(item)
+
+        var item = {
+            title: "Orion Nebula",
+            description: "Christiaan Huygens",
+            imageSource: "asset:///images/christiaan.jpg",
+            status: "1610"
+        }
         groupDataModel.insert(item)
+
+        var item = {
+            title: "Snowcast",
+            description: "The Yogscast",
+            imageSource: "asset:///images/yogscast.png",
+            status: "2009"
+        }
         groupDataModel.insert(item)
-        groupDataModel.insert(item)
-        groupDataModel.insert(item)
+
     }
 
 }
